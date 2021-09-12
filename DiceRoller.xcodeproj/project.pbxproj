@@ -19,6 +19,7 @@
 		9219F79C26EC37AB001DC3FB /* FourDiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9219F79B26EC37AB001DC3FB /* FourDiceView.swift */; };
 		928E21BC26E7D6300043D19B /* DiceRoller.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 928E21BA26E7D6300043D19B /* DiceRoller.xcdatamodeld */; };
 		928E21BE26E7D79A0043D19B /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 928E21BD26E7D79A0043D19B /* PersistenceController.swift */; };
+		92ED346D26ED75DD0091D0D8 /* DieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92ED346C26ED75DD0091D0D8 /* DieView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		9219F79B26EC37AB001DC3FB /* FourDiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FourDiceView.swift; sourceTree = "<group>"; };
 		928E21BB26E7D6300043D19B /* DiceRoller.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DiceRoller.xcdatamodel; sourceTree = "<group>"; };
 		928E21BD26E7D79A0043D19B /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
+		92ED346C26ED75DD0091D0D8 /* DieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DieView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +74,7 @@
 				92123FBC26E7063100ADC810 /* ContentView.swift */,
 				928E21BD26E7D79A0043D19B /* PersistenceController.swift */,
 				92123FC926E70B1500ADC810 /* RollView.swift */,
+				92ED346C26ED75DD0091D0D8 /* DieView.swift */,
 				9219F79526EC36C8001DC3FB /* SingleDieView.swift */,
 				9219F79726EC3799001DC3FB /* TwoDiceView.swift */,
 				9219F79926EC37A3001DC3FB /* ThreeDiceView.swift */,
@@ -167,6 +170,7 @@
 				92123FCA26E70B1500ADC810 /* RollView.swift in Sources */,
 				92123FBD26E7063100ADC810 /* ContentView.swift in Sources */,
 				928E21BE26E7D79A0043D19B /* PersistenceController.swift in Sources */,
+				92ED346D26ED75DD0091D0D8 /* DieView.swift in Sources */,
 				92123FCC26E70B5C00ADC810 /* PreviousRollView.swift in Sources */,
 				9219F79826EC3799001DC3FB /* TwoDiceView.swift in Sources */,
 				9219F79C26EC37AB001DC3FB /* FourDiceView.swift in Sources */,

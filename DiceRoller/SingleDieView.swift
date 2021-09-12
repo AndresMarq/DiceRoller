@@ -8,13 +8,15 @@
 import SwiftUI
 
 struct SingleDieView: View {
+    @Environment(\.colorScheme) var colorScheme
+    
     var numberRolledFirst: Int
     
     var body: some View {
         Text("\(numberRolledFirst)")
             .font(.system(size: 150))
             .frame(width: 200, height: 200, alignment: .center)
-            .border(Color.black, width: 7)
+            .border(colorScheme == .dark ? Color.white : Color.black, width: 7)
             .padding()
     }
 }

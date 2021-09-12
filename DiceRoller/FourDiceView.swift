@@ -16,31 +16,15 @@ struct FourDiceView: View {
     var body: some View {
         VStack {
             HStack {
-                Text("\(numberRolledFirst)")
-                    .font(.system(size: 150))
-                    .frame(width: 150, height: 150, alignment: .center)
-                    .border(Color.black, width: 7)
-                    .padding()
+                dieView(number: numberRolledFirst, size: 100)
                 
-                Text("\(numberRolledSecond)")
-                    .font(.system(size: 150))
-                    .frame(width: 150, height: 150, alignment: .center)
-                    .border(Color.black, width: 7)
-                    .padding()
+                dieView(number: numberRolledSecond, size: 100)
             }
             
             HStack {
-                Text("\(numberRolledThird)")
-                    .font(.system(size: 150))
-                    .frame(width: 150, height: 150, alignment: .center)
-                    .border(Color.black, width: 7)
-                    .padding()
+                dieView(number: numberRolledThird, size: 100)
                 
-                Text("\(numberRolledFourth)")
-                    .font(.system(size: 150))
-                    .frame(width: 150, height: 150, alignment: .center)
-                    .border(Color.black, width: 7)
-                    .padding()
+                dieView(number: numberRolledFourth, size: 100)
             }
         }
     }

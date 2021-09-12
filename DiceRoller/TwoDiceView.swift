@@ -13,23 +13,15 @@ struct TwoDiceView: View {
     
     var body: some View {
         HStack {
-            Text("\(numberRolledFirst)")
-                .font(.system(size: 150))
-                .frame(width: 150, height: 150, alignment: .center)
-                .border(Color.black, width: 7)
-                .padding()
+            dieView(number: numberRolledFirst, size: 125)
             
-            Text("\(numberRolledSecond)")
-                .font(.system(size: 150))
-                .frame(width: 150, height: 150, alignment: .center)
-                .border(Color.black, width: 7)
-                .padding()
+            dieView(number: numberRolledSecond, size: 125)
         }
     }
 }
 
 struct TwoDiceView_Previews: PreviewProvider {
     static var previews: some View {
-        TwoDiceView(numberRolledFirst: 1, numberRolledSecond: 2)
+        TwoDiceView(numberRolledFirst: 1, numberRolledSecond: 20)
     }
 }

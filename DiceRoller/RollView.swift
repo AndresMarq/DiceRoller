@@ -6,9 +6,11 @@
 //
 
 import SwiftUI
+import CoreHaptics
 
 struct RollView: View {
-    @State private var amountOfDice = 1
+    @State private var amountOfDice = 4
+    @State private var dieMaxNumber = 6.0
     
     @Environment(\.managedObjectContext) var moc
     
@@ -18,6 +20,8 @@ struct RollView: View {
     @State private var numberRolledThird: Int? = nil
     @State private var numberRolledFourth: Int? = nil
     
+    @State private var engine: CHHapticEngine?
+    
     
     var body: some View {
         NavigationView {
@@ -25,16 +29,25 @@ struct RollView: View {
                 Stepper(value: $amountOfDice, in: 1 ... 4 , step: 1) {
                     diceStepperIcons(numberOfIcons: amountOfDice)
                         .font(.title)
+                        .padding()
                 }
                 
+                Slider(value: $dieMaxNumber, in: 6 ... 100, step: 1)
+                
+                Text("\(dieMaxNumber, specifier: "%.f")-sided die")
+                    .bold()
+                    .foregroundColor(.secondary)
+                    .padding(.bottom)
+                
                 Spacer()
                 
-                SingleDieView(numberRolledFirst: numberRolledFirst)
+                showDice(numberofDice: amountOfDice)
                 
                 Spacer()
+                
                 Button(action: {
-                    self.numberRolledFirst = Int.random(in: 1...6)
-                    self.saveRoll(numberRolled: Int16(numberRolledFirst))
+                    rollDice(numberofDice: amountOfDice)
+                    rollHaptics()
                 }, label: {
                     Text("Roll")
                         .font(.title)
@@ -42,9 +55,49 @@ struct RollView: View {
                         .foregroundColor(.white)
                         .background(Color.blue)
                         .clipShape(RoundedRectangle(cornerRadius: 15))
+                        .padding()
                 })
             }
-            .navigationBarTitle("Roll Dice")
+            .navigationBarTitle("DiceRoller")
+            .onAppear(perform: prepareHaptics)
+        }
+    }
+    
+    func rollDice(numberofDice: Int) {
+        let maxInt = Int(dieMaxNumber)
+        
+        func rollFirstDie() {
+            self.numberRolledFirst = Int.random(in: 1...maxInt)
+            self.saveRoll(numberRolled: Int16(numberRolledFirst))
+        }
+        func rollSecondDie() {
+            self.numberRolledSecond = Int.random(in: 1...maxInt)
+            self.saveRoll(numberRolled: Int16(numberRolledSecond ?? 0))
+        }
+        func rollThirdDie() {
+            self.numberRolledThird = Int.random(in: 1...maxInt)
+            self.saveRoll(numberRolled: Int16(numberRolledThird ?? 0))
+        }
+        func rollFourthDie() {
+            self.numberRolledFourth = Int.random(in: 1...maxInt)
+            self.saveRoll(numberRolled: Int16(numberRolledFourth ?? 0))
+        }
+        
+        switch numberofDice {
+        case 1:
+            rollFirstDie()
+        case 2:
+            rollFirstDie()
+            rollSecondDie()
+        case 3:
+            rollFirstDie()
+            rollSecondDie()
+            rollThirdDie()
+        default:
+            rollFirstDie()
+            rollSecondDie()
+            rollThirdDie()
+            rollFourthDie()
         }
     }
     
@@ -75,20 +128,52 @@ struct RollView: View {
             }
         }
     }
-    /*
+    
+    @ViewBuilder
     func showDice(numberofDice: Int) -> some View {
         switch numberofDice {
         case 1:
-            return SingleDieView(numberRolledFirst: numberRolledFirst)
+            SingleDieView(numberRolledFirst: numberRolledFirst)
         case 2:
-            return TwoDiceView(numberRolledFirst: numberRolledFirst, numberRolledSecond: numberRolledSecond ?? 1)
+            TwoDiceView(numberRolledFirst: numberRolledFirst, numberRolledSecond: numberRolledSecond ?? 1)
         case 3:
-            return ThreeDiceView(numberRolledFirst: numberRolledFirst, numberRolledSecond: numberRolledSecond ?? 1, numberRolledThird: numberRolledThird ?? 1)
+            ThreeDiceView(numberRolledFirst: numberRolledFirst, numberRolledSecond: numberRolledSecond ?? 1, numberRolledThird: numberRolledThird ?? 1)
         default:
-            return FourDiceView(numberRolledFirst: numberRolledFirst, numberRolledSecond: numberRolledSecond ?? 1, numberRolledThird: numberRolledThird ?? 1, numberRolledFourth: numberRolledFourth ?? 1)
+            FourDiceView(numberRolledFirst: numberRolledFirst, numberRolledSecond: numberRolledSecond ?? 1, numberRolledThird: numberRolledThird ?? 1, numberRolledFourth: numberRolledFourth ?? 1)
         }
     }
- */
+    
+    func prepareHaptics() {
+        guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
+
+        do {
+            self.engine = try CHHapticEngine()
+            try engine?.start()
+        } catch {
+            print("There was an error creating the engine: \(error.localizedDescription)")
+        }
+    }
+    
+    func rollHaptics() {
+        // device supports haptics
+        guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else { return }
+        var events = [CHHapticEvent]()
+
+        // create event
+        let intensity = CHHapticEventParameter(parameterID: .hapticIntensity, value: 5)
+        let sharpness = CHHapticEventParameter(parameterID: .hapticSharpness, value: 10)
+        let event = CHHapticEvent(eventType: .hapticTransient, parameters: [intensity, sharpness], relativeTime: 0)
+        events.append(event)
+
+        // convert events into a pattern and play it immediately
+        do {
+            let pattern = try CHHapticPattern(events: events, parameters: [])
+            let player = try engine?.makePlayer(with: pattern)
+            try player?.start(atTime: 0)
+        } catch {
+            print("Failed to play pattern: \(error.localizedDescription).")
+        }
+    }
 }
 
 struct RollView_Previews: PreviewProvider {
