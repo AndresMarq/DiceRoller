@@ -15,7 +15,7 @@ struct dieView: View {
     
     var body: some View {
         Text("\(number)")
-            .font(.system(size: 80))
+            .font(.system(size: 75))
             .frame(width: size, height: size, alignment: .center)
             .border(colorScheme == .dark ? Color.white : Color.black, width: 7)
             .padding()

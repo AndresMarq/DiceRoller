@@ -46,8 +46,7 @@ struct RollView: View {
                 Spacer()
                 
                 Button(action: {
-                    rollDice(numberofDice: amountOfDice)
-                    rollHaptics()
+                    rollAction()
                 }, label: {
                     Text("Roll")
                         .font(.title)
@@ -60,6 +59,20 @@ struct RollView: View {
             }
             .navigationBarTitle("DiceRoller")
             .onAppear(perform: prepareHaptics)
+        }
+    }
+    
+    func rollAction() {
+        let timers = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.75, 2, 2.25]
+        
+        for time in timers {
+            DispatchQueue.main.asyncAfter(deadline: .now() + time) {
+                fakeRoll(numberofDice: amountOfDice)
+            }
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+            rollDice(numberofDice: amountOfDice)
+            rollHaptics()
         }
     }
     
@@ -98,6 +111,27 @@ struct RollView: View {
             rollSecondDie()
             rollThirdDie()
             rollFourthDie()
+        }
+    }
+    
+    func fakeRoll(numberofDice: Int) {
+        let maxInt = Int(dieMaxNumber)
+        
+        switch numberofDice {
+        case 1:
+            self.numberRolledFirst = Int.random(in: 1...maxInt)
+        case 2:
+            self.numberRolledFirst = Int.random(in: 1...maxInt)
+            self.numberRolledSecond = Int.random(in: 1...maxInt)
+        case 3:
+            self.numberRolledFirst = Int.random(in: 1...maxInt)
+            self.numberRolledSecond = Int.random(in: 1...maxInt)
+            self.numberRolledThird = Int.random(in: 1...maxInt)
+        default:
+            self.numberRolledFirst = Int.random(in: 1...maxInt)
+            self.numberRolledSecond = Int.random(in: 1...maxInt)
+            self.numberRolledThird = Int.random(in: 1...maxInt)
+            self.numberRolledFourth = Int.random(in: 1...maxInt)
         }
     }
     
